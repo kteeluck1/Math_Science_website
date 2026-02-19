@@ -1,7 +1,29 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Trigonometric identities | Math HL</title>
-<style>body{font-family:system-ui;margin:24px;color:#0f172a}a{color:#2563eb}.signup{padding:8px 12px;border-radius:999px;background:#f97316;color:#fff;font-weight:800;text-decoration:none}.btn{padding:8px 10px;border-radius:8px;background:#2563eb;color:#fff;text-decoration:none;font-weight:800}.card{border:1px solid #e5e7eb;border-radius:12px;padding:18px;margin-bottom:12px;background:#fff}</style></head>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Trigonometric identities | Math HL</title>
+  <style>
+    body{font-family:system-ui;margin:24px;color:#0f172a}
+    a{color:#2563eb}
+    .signup{padding:8px 12px;border-radius:999px;background:#f97316;color:#fff;font-weight:800;text-decoration:none}
+    .btn{padding:8px 10px;border-radius:8px;background:#2563eb;color:#fff;text-decoration:none;font-weight:800;border:0;cursor:pointer}
+    .card{border:1px solid #e5e7eb;border-radius:12px;padding:18px;margin-bottom:12px;background:#fff}
+    .problem{font-weight:800}
+    .solution{margin-top:12px;padding:12px;border-radius:8px;background:#f8fafc;display:none}
+  </style>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
 <body>
   <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px">
     <a href="../index.html">Home</a>
@@ -10,42 +32,40 @@
     <span>Identities</span>
     <div style="margin-left:auto"><a class="signup" href="../math-hl.html#signup">Sign Up for Free</a></div>
   </div>
+
   <h1>Trigonometric identities</h1>
-      <script>
-        window.MathJax = {
-          tex: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['$$','$$'], ['\\[','\\]']]
-          }
-        };
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <div class="card"><p>Placeholder for trigonometric identities and proofs.</p></div>
 
   <div class="card">
     <div class="problem">Problem 1 — Prove the following identity</div>
-    <div style="margin-top:8px">(a) \u00A0 \u00A0 \u00A0 \u00A0 \u00A0
-      <em>sec</em>&nbsp;\u03B8 / (<em>sec</em>&nbsp;\u03B8 + <em>tan</em>&nbsp;\u03B8) + <em>tan</em>&nbsp;\u03B8 / (<em>sec</em>&nbsp;\u03B8 - <em>tan</em>&nbsp;\u03B8) = 1 + 2 <em>tan</em><sup>2</sup>&nbsp;\u03B8
+    <div style="margin-top:8px">(a)
+      \(\displaystyle \frac{\sec\theta}{\sec\theta+\tan\theta} + \frac{\tan\theta}{\sec\theta-\tan\theta} = 1 + 2\tan^2\theta \)
     </div>
+
     <button class="btn" data-target="s1">Show solution</button>
-    <div id="s1" class="solution" style="display:none;margin-top:12px;padding:12px;border-radius:8px;background:#f8fafc;">
-      Combine the two fractions: 
+
+    <div id="s1" class="solution">
+      Combine the two fractions and simplify. For clarity, write the result as display math:
       <br/>
-      (sec^2\u00A0\u03B8 + tan^2\u00A0\u03B8) / (sec^2\u00A0\u03B8 - tan^2\u00A0\u03B8).
-      Use the identity sec^2\u00A0\u03B8 = 1 + tan^2\u00A0\u03B8 to get
+      \[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}\]
+      Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
       <br/>
-      (1 + 2 tan^2\u00A0\u03B8) / 1 = 1 + 2 tan^2\u00A0\u03B8,
-          \(\displaystyle \frac{\sec\theta}{\sec\theta+\tan\theta} + \frac{\tan\theta}{\sec\theta-\tan\theta} = 1 + 2\tan^2\theta \)
+      \[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]
+      which proves the result.
     </div>
   </div>
 
-          Combine the two fractions and simplify. For clarity, write the result as display math:
-          <br/>
-          \[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}.\]
-          Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
-          <br/>
-          \[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]
-          which proves the result.
+  <div style="display:flex;gap:12px;margin-top:18px">
+    <a class="btn" href="discriminant.html">Previous</a>
+    <a class="btn" href="../math-hl.html">Back to Topics</a>
+    <a class="btn" href="equations.html">Next: Equations</a>
+  </div>
+
+  <script>
+    document.querySelectorAll('button[data-target]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var id = b.getAttribute('data-target');
+        var el = document.getElementById(id);
         if (!el) return;
         if (el.style.display === 'block'){
           el.style.display = 'none';
