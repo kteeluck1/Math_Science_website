@@ -552,13 +552,6 @@
   </div>
 
   <script>
-    // Expand/collapse topics
-    document.querySelectorAll(".topic").forEach(btn => {
-      btn.addEventListener("click", () => {
-        btn.classList.toggle("open");
-      });
-    });
-
     // Filter topics by text
     const search = document.getElementById("topicSearch");
     const topicsRoot = document.getElementById("topics");
@@ -591,26 +584,47 @@
     if (search) search.addEventListener("input", () => filterTopics(search.value));
   </script>
   <script>
-    // Ensure subtopic links always navigate even if parent handlers interfere.
-    document.querySelectorAll('.children a').forEach(a => {
-      a.addEventListener('click', function(e){
-        e.stopPropagation();
-        // Force navigation to the href (works when running via file:// or a webserver)
-        const href = this.getAttribute('href');
-        if (!href) return;
-        // If it's an absolute or relative URL, navigate there.
-        window.location.href = href;
-      });
-    });
+    // Robust sidebar interaction using event delegation on #topics.
+    (function(){
+      const topicsRoot = document.getElementById('topics');
+      if (!topicsRoot) return;
 
-    // Prevent topic button clicks from swallowing events when user clicks inside children.
-    document.querySelectorAll('.topic').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        // If click target was inside a child anchor, ignore here (anchor handler handles it)
-        if (e.target && e.target.closest && e.target.closest('.children')) return;
-        btn.classList.toggle('open');
+      // Handle clicks inside the topics area.
+      topicsRoot.addEventListener('click', (e) => {
+        const anchor = e.target.closest('.children a');
+        if (anchor) {
+          // Click on a subtopic link: navigate and stop propagation so no toggle happens.
+          e.preventDefault();
+          const href = anchor.getAttribute('href');
+          if (href && href !== '#') {
+            window.location.href = href;
+          }
+          return;
+        }
+
+        // Find the nearest topic button that was clicked (if any)
+        const topicBtn = e.target.closest('.topic');
+        if (topicBtn && topicsRoot.contains(topicBtn)) {
+          // Toggle the open state and explicitly show/hide the children container.
+          const next = topicBtn.nextElementSibling;
+          const isOpen = topicBtn.classList.toggle('open');
+          if (next && next.classList && next.classList.contains('children')) {
+            next.style.display = isOpen ? 'block' : 'none';
+          }
+        }
       });
-    });
+
+      // Ensure subtopic links also respond to keyboard Enter/Space when focused
+      topicsRoot.querySelectorAll('.children a').forEach(a => {
+        a.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const href = a.getAttribute('href');
+            if (href && href !== '#') window.location.href = href;
+          }
+        });
+      });
+    })();
   </script>
 </body>
 </html>
