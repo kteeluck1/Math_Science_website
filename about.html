@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>About — 3MedTech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root{
+      --bg:#0f172a;
+      --fg:#e5e7eb;
+      --muted:#9ca3af;
+      --accent:#38bdf8;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: radial-gradient(1200px 600px at 50% 20%, #111827, var(--bg));
+      color:var(--fg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      text-align:center;
+    }
+
+    .back-btn{
+      position:fixed;
+      top:18px;
+      left:18px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(56,189,248,.6);
+      color:var(--fg);
+      text-decoration:none;
+      background: rgba(17,24,39,.35);
+      backdrop-filter: blur(6px);
+      font-weight:600;
+    }
+    .back-btn:hover{ background: rgba(56,189,248,.12); }
+
+    .box{
+      width:min(720px, calc(100vw - 48px));
+      padding:56px 44px;
+      border-radius:22px;
+      background: rgba(17,24,39,.55);
+      border:1px solid rgba(56,189,248,.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    h1{
+      margin:0 0 14px 0;
+      font-size: clamp(28px, 4vw, 42px);
+    }
+
+    p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    footer{
+      margin-top:28px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .home-link{
+      display:inline-block;
+      margin-top:22px;
+      color:var(--accent);
+      text-decoration:none;
+      font-weight:600;
+    }
+    .home-link:hover{ text-decoration:underline; }
+  </style>
+</head>
+
+<body>
+  <a class="back-btn" href="index.html">← Back</a>
+
+  <!-- KEEP ONLY THIS ONE BOX -->
+  <main class="box">
+    <h1>About 3MedTech</h1>
+
+    <p>
+      3MedTech is focused on practical, reliable solutions that improve how
+      healthcare teams deploy, manage, and use technology. This website is
+      currently under construction while we finalize content, features, and
+      deployment.
+    </p>
+
+    <a class="home-link" href="index.html">← Back to Home</a>
+
+    <footer>© 2026 3MedTech</footer>
+  </main>
+</body>
+</html>

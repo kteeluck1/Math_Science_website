@@ -1,0 +1,521 @@
+<!-- math-hl.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Math HL | 3MedTech</title>
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --soft:#f8fafc;
+      --blue:#2563eb;
+      --orange:#f97316;
+      --shadow: 0 10px 30px rgba(2,8,23,.08);
+      --radius:16px;
+      --navH:72px;
+      --sideW:340px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+    a{color:inherit}
+
+    /* Top nav */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:#fff;
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      height:var(--navH);
+      max-width: 1320px;
+      margin:0 auto;
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .logo{
+      width:36px;height:36px;border-radius:10px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      box-shadow: var(--shadow);
+    }
+
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .navlinks a{
+      text-decoration:none;
+      font-weight:700;
+      color: #334155;
+      padding:10px 10px;
+      border-radius:12px;
+    }
+    .navlinks a:hover{ background: var(--soft); color: var(--text); }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:900;
+      text-decoration:none;
+      cursor:pointer;
+    }
+    .btn.primary{
+      border:0;
+      background: var(--orange);
+      color:#fff;
+    }
+
+    /* Layout */
+    .wrap{
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px 18px 24px;
+      display:grid;
+      grid-template-columns: var(--sideW) 1fr;
+      gap: 18px;
+    }
+
+    /* Sidebar */
+    aside{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background:#fff;
+      height: calc(100vh - var(--navH) - 28px);
+      position: sticky;
+      top: calc(var(--navH) + 14px);
+      display:flex;
+      flex-direction:column;
+      min-height: 520px;
+    }
+
+    .sideTop{
+      padding: 14px;
+      border-bottom:1px solid var(--line);
+      background: #fff;
+    }
+    .searchRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .searchRow input{
+      width:100%;
+      padding: 11px 12px;
+      border:1px solid var(--line);
+      border-radius: 999px;
+      outline:none;
+      font-weight:700;
+      color: var(--text);
+      background: var(--soft);
+    }
+    .searchRow input:focus{
+      border-color: rgba(37,99,235,.45);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+      background:#fff;
+    }
+    .iconBtn{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background:#fff;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+    }
+    .iconBtn:hover{ background: var(--soft); }
+
+    .topics{
+      padding: 8px 10px 12px;
+      overflow:auto;
+    }
+
+    .topic{
+      width:100%;
+      border:0;
+      background:#fff;
+      text-align:left;
+      padding: 10px 10px;
+      border-radius: 14px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .topic:hover{ background: var(--soft); }
+    .topic .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .plus{
+      width:22px;height:22px;
+      border:1px solid #cbd5e1;
+      border-radius:6px;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color:#334155;
+      flex: 0 0 auto;
+      background:#fff;
+    }
+    .label{
+      font-weight:800;
+      color:#334155;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .children{
+      display:none;
+      padding: 0 6px 8px 38px;
+    }
+    .children a{
+      display:block;
+      text-decoration:none;
+      color: var(--muted);
+      font-weight:750;
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+    .children a:hover{ background: var(--soft); color: var(--text); }
+
+    .topic.open + .children{ display:block; }
+    .topic.open .plus{ background:#e0e7ff; border-color:#c7d2fe; color:#1d4ed8; }
+
+    /* Main */
+    main{
+      min-height: calc(100vh - var(--navH) - 28px);
+    }
+
+    /* Tabs row like screenshot */
+    .tabbar{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      padding: 10px 0 14px;
+      border-bottom:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+    .tab{
+      text-decoration:none;
+      font-weight:900;
+      color: #475569;
+      padding: 10px 10px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .tab:hover{ background: var(--soft); color: var(--text); }
+    .tab.active{
+      color: var(--blue);
+      background: rgba(37,99,235,.08);
+    }
+
+    /* Content card */
+    .card{
+      margin-top: 16px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background:#fff;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      min-height: 420px;
+    }
+
+    .heroTitle{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      padding: 10px 0 6px;
+    }
+    .badgeIcon{
+      width:64px;height:64px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      display:grid;
+      place-items:center;
+    }
+    .badgeIcon svg{ width:44px;height:44px; opacity:.85; }
+
+    h1{
+      margin:0;
+      font-size: 56px;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    .subtitle{
+      margin: 6px 0 0;
+      font-weight:900;
+      font-size: 18px;
+      color:#0f172a;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns: 1fr; }
+      aside{ position: relative; top:auto; height:auto; }
+      h1{ font-size: 44px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <div>3MedTech</div>
+      </a>
+
+      <div class="navlinks" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="math-hl.html" style="color:var(--text);">Courses</a>
+        <a href="#">Papers</a>
+        <a href="#">Pricing</a>
+        <a href="#">Exam Sphere <span style="font-size:11px;color:var(--orange);font-weight:1000;">NEW</span></a>
+        <a href="#">Book a Free Demo</a>
+        <a href="#" aria-label="Phone">📞 0208 434 0644</a>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="login.html">Log in</a>
+        <a class="btn primary" href="#signup">Sign Up for Free</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- LEFT SIDEBAR -->
+    <aside>
+      <div class="sideTop">
+        <div class="searchRow">
+          <input id="topicSearch" type="text" placeholder="Filter Topics..." />
+          <button class="iconBtn" type="button" title="Filter">
+            <!-- funnel icon -->
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 3H2l8 9v7l4 2v-9l8-9z"></path>
+            </svg>
+          </button>
+          <button class="iconBtn" type="button" title="Video">
+            <!-- video icon -->
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 7l-7 5 7 5V7z"></path>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="topics" id="topics">
+        <!-- Add/remove topics freely -->
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Sequences and Series</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Arithmetic sequences</a>
+          <a href="#">Geometric sequences</a>
+          <a href="#">Sigma notation</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Logarithmic and Exponential Functions</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Laws of logs</a>
+          <a href="#">Exponential growth/decay</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Permutations and Combinations</span></span>
+        </button>
+        <div class="children">
+          <a href="#">nPr and nCr</a>
+          <a href="#">Binomial coefficient</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Proof by Mathematical Induction</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Basic induction</a>
+          <a href="#">Strong induction</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Complex Numbers</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Algebra with i</a>
+          <a href="#">Modulus/argument</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Algebra and Functions 1</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Transformations</a>
+          <a href="#">Inverse functions</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Quadratics</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Vertex form</a>
+          <a href="#">Discriminant</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Trigonometry</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Identities</a>
+          <a href="#">Equations</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Vectors</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Dot product</a>
+          <a href="#">Lines and planes</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Differentiation</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Rules</a>
+          <a href="#">Applications</a>
+        </div>
+
+        <button class="topic" type="button">
+          <span class="left"><span class="plus">+</span><span class="label">Integration</span></span>
+        </button>
+        <div class="children">
+          <a href="#">Techniques</a>
+          <a href="#">Areas/volumes</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <div class="tabbar" role="tablist" aria-label="Course sections">
+        <a class="tab active" href="#">Overview</a>
+        <a class="tab" href="#">Topic Index</a>
+        <a class="tab" href="#">Exam Papers</a>
+        <a class="tab" href="#">Exam Questions</a>
+        <a class="tab" href="#">Practice Sets</a>
+        <a class="tab" href="#">Dynamic Papers <span style="font-size:11px;color:var(--orange);font-weight:1000;">NEW</span></a>
+      </div>
+
+      <section class="card">
+        <div class="heroTitle">
+          <div class="badgeIcon" aria-hidden="true">
+            <!-- simple geometry icon -->
+            <svg viewBox="0 0 64 64" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 50 L30 14 L50 50 Z"></path>
+              <path d="M34 14 L34 50"></path>
+              <path d="M18 50 L50 50"></path>
+              <path d="M40 18 L48 26"></path>
+              <path d="M40 26 L48 18"></path>
+            </svg>
+          </div>
+          <div>
+            <h1>Maths</h1>
+            <div class="subtitle">IB Higher Level</div>
+          </div>
+        </div>
+
+        <!-- Placeholder content -->
+        <div style="margin-top:18px;color:var(--muted);font-weight:750;max-width:70ch;">
+          Select a topic on the left to start. This page is currently a static shell that matches the layout.
+          Next step is wiring each topic to lessons, videos, questions, or PDFs.
+        </div>
+
+        <div id="signup" style="margin-top:26px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-weight:800;">
+          Sign up section placeholder.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Expand/collapse topics
+    document.querySelectorAll(".topic").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("open");
+      });
+    });
+
+    // Filter topics by text
+    const search = document.getElementById("topicSearch");
+    const topicsRoot = document.getElementById("topics");
+
+    function filterTopics(q){
+      const query = q.trim().toLowerCase();
+      const buttons = [...topicsRoot.querySelectorAll(".topic")];
+
+      buttons.forEach(btn => {
+        const label = btn.querySelector(".label")?.textContent?.toLowerCase() || "";
+        const children = btn.nextElementSibling; // .children
+
+        const match = label.includes(query);
+
+        // If query empty: show all
+        if (!query){
+          btn.style.display = "";
+          if (children && children.classList.contains("children")) children.style.display = "";
+          return;
+        }
+
+        // Show only matching topic headers; hide their children by default
+        btn.style.display = match ? "" : "none";
+        if (children && children.classList.contains("children")){
+          children.style.display = match ? "" : "none";
+        }
+      });
+    }
+
+    if (search) search.addEventListener("input", () => filterTopics(search.value));
+  </script>
+</body>
+</html>

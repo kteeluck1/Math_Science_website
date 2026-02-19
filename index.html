@@ -1,0 +1,388 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3MedTech</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --blue:#0ea5e9;
+      --blue2:#22c55e;
+      --pill:#eef2ff;
+      --shadow: 0 10px 30px rgba(2,8,23,.08);
+      --radius:18px;
+      --navH:72px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(900px 450px at 80% 10%, #eef2ff 0%, rgba(238,242,255,0) 60%),
+                  radial-gradient(700px 400px at 0% 90%, #ecfeff 0%, rgba(236,254,255,0) 60%),
+                  var(--bg);
+      min-height:100vh;
+    }
+
+    /* ---------- Top nav ---------- */
+    header{
+      position: sticky;
+      top:0;
+      z-index:50;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      height: var(--navH);
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.2px;
+      text-decoration:none; color:var(--text);
+    }
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      box-shadow: var(--shadow);
+    }
+
+    nav ul{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:0; margin:0;
+    }
+
+    .navlink, .dropbtn{
+      border:0;
+      background:transparent;
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+      padding:10px 10px;
+      border-radius:12px;
+      cursor:pointer;
+    }
+    .navlink:hover, .dropbtn:hover{ background:#f8fafc; }
+
+    /* Dropdown */
+    .dropdown{ position:relative; }
+    .menu{
+      position:absolute;
+      top: calc(100% + 10px);
+      left:0;
+      min-width: 210px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow: var(--shadow);
+      padding:8px;
+      display:none;
+    }
+    .menu a{
+      display:block;
+      text-decoration:none;
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:600;
+    }
+    .menu a span{ color:var(--muted); font-weight:600; font-size:12px; display:block; margin-top:2px; }
+    .menu a:hover{ background:#f8fafc; }
+    .dropdown.open .menu{ display:block; }
+
+    /* Right buttons */
+    .actions{ display:flex; gap:10px; align-items:center; }
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      font-weight:700;
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn:hover{ box-shadow: 0 8px 18px rgba(2,8,23,.08); }
+    .btn.primary{
+      border:0;
+      background: linear-gradient(135deg, #60a5fa, #22c55e);
+      color:white;
+    }
+
+    /* ---------- Hero ---------- */
+    main{
+      max-width:1120px;
+      margin:0 auto;
+      padding: 46px 18px 60px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 28px;
+      align-items:center;
+      padding: 22px 0 10px;
+    }
+
+    .headline{
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: 1.05;
+      margin:0 0 10px;
+      letter-spacing: -0.02em;
+    }
+    .sub{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size: 17px;
+      max-width: 54ch;
+    }
+    .ctaRow{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .ctaBig{
+      padding: 14px 18px;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:#0f172a;
+      color:#fff;
+      font-weight:800;
+      width: fit-content;
+    }
+    .pill span{ color:#f472b6; }
+
+    /* Stats */
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 26px;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .stat{
+      padding: 16px 12px;
+      text-align:center;
+    }
+    .stat:not(:last-child){ border-right:1px solid var(--line); }
+    .stat strong{
+      display:block;
+      font-size: 22px;
+      letter-spacing:-.01em;
+    }
+    .stat small{ color:var(--muted); font-weight:700; }
+
+    /* Right panel */
+    .panel{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.9);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .panel h3{ margin:0 0 10px; font-size:16px; }
+    .panel p{ margin:0 0 14px; color:var(--muted); font-weight:600; }
+
+    /* Registration block */
+    #register{
+      margin-top: 26px;
+      padding-top: 10px;
+    }
+    form{
+      display:grid;
+      gap: 10px;
+    }
+    label{ font-weight:800; font-size:13px; }
+    input[type="email"]{
+      width:100%;
+      padding: 12px 12px;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      font-size: 14px;
+      outline: none;
+    }
+    input[type="email"]:focus{ border-color: rgba(14,165,233,.55); box-shadow: 0 0 0 4px rgba(14,165,233,.12); }
+    button[type="submit"]{
+      border:0;
+      cursor:pointer;
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-weight:900;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      color:white;
+    }
+    .reg-msg{ font-weight:800; color:var(--muted); min-height: 1.2em; }
+
+    .status{
+      margin-top: 18px;
+      color: var(--muted);
+      font-weight:700;
+      font-size: 13px;
+    }
+    footer{
+      margin-top: 26px;
+      color: var(--muted);
+      font-weight:700;
+      font-size: 13px;
+    }
+
+    /* Mobile */
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      nav ul{ display:none; } /* keep it simple; add hamburger later if you want */
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html">
+      <div class="logo" aria-hidden="true"></div>
+      <div>3MedTech</div>
+    </a>
+
+    <nav>
+      <ul>
+        <li class="dropdown" id="coursesDrop">
+          <button class="dropbtn" type="button" aria-haspopup="true" aria-expanded="false">
+            COURSES ▾
+          </button>
+          <div class="menu" role="menu" aria-label="Courses">
+            <a href="math-hl.html" role="menuitem">
+              Math HL
+              <span>IB HL Mathematics: AA</span>
+            </a>
+            <a href="physics-sl.html" role="menuitem">
+              Physics SL
+              <span>IB SL Physics</span>
+            </a>
+            <a href="Chemisty-hl.html" role="menuitem">
+              Chemistry Hl
+              <span>IB HL Chemistry</span>
+            </a>
+          </div>
+        </li>
+
+        <!-- About must link to about page -->
+        <li><a class="navlink" href="about.html">ABOUT</a></li>
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <!-- If you don’t have these pages yet, keep as # for now -->
+      <a class="btn" href="login.html">LOG IN</a>
+      <a class="btn primary" href="#register">SIGN UP</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1 class="headline">We Help Our Students</h1>
+      <p class="sub">
+        IB-focused lessons and worked solutions.
+      </p>
+
+    </div>
+
+    <aside class="panel" id="register">
+      <h3>Register for updates</h3>
+      <p>Get notified when new courses and question sets go live.</p>
+
+      <form id="regForm" autocomplete="on">
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required maxlength="254" />
+        </div>
+
+        <button type="submit">Register for updates</button>
+        <div id="regMsg" class="reg-msg"></div>
+      </form>
+
+      <div class="status">
+        Construction in Progress with the assistance of Prof Aveensh Emrith
+      </div>
+      <footer>© 2026 3MedTech</footer>
+    </aside>
+  </section>
+</main>
+<script>
+  // Courses dropdown open/close
+  const drop = document.getElementById("coursesDrop");
+  const btn  = drop?.querySelector(".dropbtn");
+
+  function closeDrop() {
+    drop?.classList.remove("open");
+    btn?.setAttribute("aria-expanded", "false");
+  }
+
+  if (drop && btn) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = drop.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.addEventListener("click", closeDrop);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeDrop();
+    });
+  }
+
+  // Registration submit (your existing behavior)
+  const form = document.getElementById("regForm");
+  const msg  = document.getElementById("regMsg");
+
+  if (form && msg) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.textContent = "Saving…";
+
+      try {
+        const res = await fetch("register.php", {
+          method: "POST",
+          body: new FormData(form)
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.ok) {
+          msg.textContent = "Thanks — you’re registered!";
+          form.reset();
+        } else {
+          msg.textContent = data.error || "Could not save your registration.";
+        }
+      } catch (err) {
+        msg.textContent = "Network error. Please try again.";
+      }
+    });
+  }
+</script>
+</body>
+</html>
+
