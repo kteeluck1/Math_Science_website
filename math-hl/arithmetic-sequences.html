@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arithmetic Sequences | Math HL</title>
+  <style>
+    body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:24px; color:#0f172a; background:#fff }
+    a{ color:#2563eb }
+    .nav{ display:flex; gap:12px; align-items:center; margin-bottom:18px }
+    .card{ border:1px solid #e5e7eb; border-radius:12px; padding:18px; margin-bottom:12px; background:#fff }
+    .problem{ font-weight:800 }
+    .solution{ margin-top:12px; padding:12px; border-radius:8px; background:#f8fafc; display:none }
+    .btn{ display:inline-block; padding:8px 10px; border-radius:8px; border:0; cursor:pointer; background:#2563eb; color:white; font-weight:800 }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="../index.html">Home</a>
+    <a href="../math-hl.html">Courses</a>
+    <strong>›</strong>
+    <span>Arithmetic sequences</span>
+  </div>
+
+  <h1>Arithmetic sequences — problems & solutions</h1>
+  <p style="color:#64748b;max-width:70ch">This page is a living list of interesting problems about arithmetic sequences. Click "Show solution" to reveal the worked solution. Add new problems by editing this file.</p>
+
+  <div class="card">
+    <div class="problem">Problem 1 — Basic terms and sum</div>
+    <div>Given an arithmetic sequence with first term a1 = 5 and common difference d = 3, find (a) the 20th term, and (b) the sum of the first 20 terms.</div>
+    <button class="btn" data-target="s1">Show solution</button>
+    <div id="s1" class="solution">
+      (a) nth term: a_n = a1 + (n-1)d = 5 + 19·3 = 5 + 57 = 62.
+      <br/>
+      (b) Sum of first n terms: S_n = n*(a1 + a_n)/2 = 20*(5 + 62)/2 = 10*67 = 670.
+    </div>
+  </div>
+    <div style="display:flex;gap:12px;margin-top:18px">
+      <a class="btn" href="../math-hl.html">Back to Topics</a>
+      <a class="btn" href="geometric-sequences.html">Next: Geometric sequences</a>
+    </div>
+
+  <div class="card">
+    <div class="problem">Problem 2 — Determine a1 and d from sums</div>
+    <div>The sum of the first 10 terms of an arithmetic sequence is 150 and the sum of the first 20 terms is 420. Find a1 and d.</div>
+    <button class="btn" data-target="s2">Show solution</button>
+    <div id="s2" class="solution">
+      Let S_n = n/2 (2a1 + (n-1)d).
+      S_10 = 10/2 (2a1 + 9d) = 5(2a1 + 9d) = 150 → 2a1 + 9d = 30.  (1)
+      S_20 = 10(2a1 + 19d) = 420 → 2a1 + 19d = 42.  (2)
+      Subtract (2)-(1): 10d = 12 → d = 1.2. Then 2a1 + 9(1.2) = 30 → 2a1 + 10.8 = 30 → 2a1 = 19.2 → a1 = 9.6.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="problem">Problem 3 — Smallest n for a sum bound</div>
+    <div>Find the smallest positive integer n such that the sum of the first n terms of the arithmetic sequence with a1 = 8 and d = -0.5 is less than 50.</div>
+    <button class="btn" data-target="s3">Show solution</button>
+    <div id="s3" class="solution">
+      S_n = n/2 (2a1 + (n-1)d) = n/2 (16 + (n-1)(-0.5)). We need S_n &lt; 50.
+      Solve n(16 - 0.5(n-1))/2 &lt; 50 → n(16 - 0.5n + 0.5)/2 &lt; 50 → n(16.5 - 0.5n) &lt; 100.
+      Rearranged: -0.5 n^2 + 16.5 n - 100 &lt; 0 → multiply -2: n^2 -33 n + 200 &gt; 0.
+      Roots: n = [33 ± sqrt(33^2 - 800)]/2 = [33 ± sqrt(1089 - 800)]/2 = [33 ± sqrt(289)]/2 = [33 ± 17]/2 → n = 25 or n = 8.
+      The quadratic is positive for n &lt; 8 or n &gt; 25. We need S_n &lt; 50 which corresponds to n &gt; 25 (since for small n the sum is increasing). So smallest integer n = 26.
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.btn').forEach(b => {
+      b.addEventListener('click', () => {
+        const id = b.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.style.display === 'block'){
+          el.style.display = 'none';
+          b.textContent = 'Show solution';
+        } else {
+          el.style.display = 'block';
+          b.textContent = 'Hide solution';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
