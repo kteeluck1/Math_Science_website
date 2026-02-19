@@ -11,6 +11,15 @@
     <div style="margin-left:auto"><a class="signup" href="../math-hl.html#signup">Sign Up for Free</a></div>
   </div>
   <h1>Trigonometric identities</h1>
+      <script>
+        window.MathJax = {
+          tex: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']]
+          }
+        };
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <div class="card"><p>Placeholder for trigonometric identities and proofs.</p></div>
 
   <div class="card">
@@ -26,17 +35,17 @@
       Use the identity sec^2\u00A0\u03B8 = 1 + tan^2\u00A0\u03B8 to get
       <br/>
       (1 + 2 tan^2\u00A0\u03B8) / 1 = 1 + 2 tan^2\u00A0\u03B8,
-      which proves the result.
+          \(\displaystyle \frac{\sec\theta}{\sec\theta+\tan\theta} + \frac{\tan\theta}{\sec\theta-\tan\theta} = 1 + 2\tan^2\theta \)
     </div>
   </div>
 
-  <div style="display:flex;gap:12px;margin-top:18px"><a class="btn" href="discriminant.html">Previous</a><a class="btn" href="../math-hl.html">Back to Topics</a><a class="btn" href="equations.html">Next: Equations</a></div>
-
-  <script>
-    document.querySelectorAll('button[data-target]').forEach(b => {
-      b.addEventListener('click', () => {
-        const id = b.getAttribute('data-target');
-        const el = document.getElementById(id);
+          Combine the two fractions and simplify. For clarity, write the result as display math:
+          <br/>
+          \[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}.\]
+          Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
+          <br/>
+          \[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]
+          which proves the result.
         if (!el) return;
         if (el.style.display === 'block'){
           el.style.display = 'none';
