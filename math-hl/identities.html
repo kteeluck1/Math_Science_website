@@ -12,6 +12,41 @@
   </div>
   <h1>Trigonometric identities</h1>
   <div class="card"><p>Placeholder for trigonometric identities and proofs.</p></div>
+
+  <div class="card">
+    <div class="problem">Problem 1 — Prove the following identity</div>
+    <div style="margin-top:8px">(a) \u00A0 \u00A0 \u00A0 \u00A0 \u00A0
+      <em>sec</em>&nbsp;\u03B8 / (<em>sec</em>&nbsp;\u03B8 + <em>tan</em>&nbsp;\u03B8) + <em>tan</em>&nbsp;\u03B8 / (<em>sec</em>&nbsp;\u03B8 - <em>tan</em>&nbsp;\u03B8) = 1 + 2 <em>tan</em><sup>2</sup>&nbsp;\u03B8
+    </div>
+    <button class="btn" data-target="s1">Show solution</button>
+    <div id="s1" class="solution" style="display:none;margin-top:12px;padding:12px;border-radius:8px;background:#f8fafc;">
+      Combine the two fractions: 
+      <br/>
+      (sec^2\u00A0\u03B8 + tan^2\u00A0\u03B8) / (sec^2\u00A0\u03B8 - tan^2\u00A0\u03B8).
+      Use the identity sec^2\u00A0\u03B8 = 1 + tan^2\u00A0\u03B8 to get
+      <br/>
+      (1 + 2 tan^2\u00A0\u03B8) / 1 = 1 + 2 tan^2\u00A0\u03B8,
+      which proves the result.
+    </div>
+  </div>
+
   <div style="display:flex;gap:12px;margin-top:18px"><a class="btn" href="discriminant.html">Previous</a><a class="btn" href="../math-hl.html">Back to Topics</a><a class="btn" href="equations.html">Next: Equations</a></div>
+
+  <script>
+    document.querySelectorAll('button[data-target]').forEach(b => {
+      b.addEventListener('click', () => {
+        const id = b.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.style.display === 'block'){
+          el.style.display = 'none';
+          b.textContent = 'Show solution';
+        } else {
+          el.style.display = 'block';
+          b.textContent = 'Hide solution';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
