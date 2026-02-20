@@ -43,23 +43,36 @@
     </div>
 
     <!-- Step 1: show how to combine into a single fraction (visible before full solution) -->
-    <div style="margin-top:12px;padding:10px;border-radius:8px;background:#f1f5f9;color:#0f172a">
-      <strong>Step 1 — combine as a single fraction:</strong>
-      <div style="margin-top:8px">\(\displaystyle \frac{\sec\theta(\sec\theta-\tan\theta)+\tan\theta(\sec\theta+\tan\theta)}{(\sec\theta+\tan\theta)(\sec\theta-\tan\theta)}\)</div>
+    <div style="margin-top:12px;padding:10px;border-radius:8px;background:#f1f5f9;color:#0f172a;display:flex;align-items:flex-start;gap:12px">
+      <div style="flex:1">
+        <strong>Step 1 — combine as a single fraction:</strong>
+        <div style="margin-top:8px">\(\displaystyle \frac{\sec\theta(\sec\theta-\tan\theta)+\tan\theta(\sec\theta+\tan\theta)}{(\sec\theta+\tan\theta)(\sec\theta-\tan\theta)}\)</div>
+      </div>
+      <div>
+        <button class="btn listen-step" data-text="Combine the two fractions by using the common denominator: multiply the first numerator by sec theta minus tan theta and the second by sec theta plus tan theta, then add the numerators over the product denominator." aria-label="Listen Step 1">🔊 Listen step 1</button>
+      </div>
     </div>
 
     <button class="btn" data-target="s1" style="margin-top:12px">Show solution</button>
 
     <div id="s1" class="solution">
-      <div style="margin-bottom:8px">Combine the two fractions and simplify. For clarity, write the result as display math:</div>
-      \[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}\]
-      Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
-      <br/>
-      \[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]
-      which proves the result.
+      <div id="step2" style="margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
+        <div style="flex:1">Combine the two fractions and simplify. For clarity, write the result as display math:
+          <div>\[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}\]</div>
+        </div>
+        <div>
+          <button class="btn listen-step" data-text="After combining and simplifying, the numerator becomes sec squared theta plus tan squared theta, and the denominator sec squared theta minus tan squared theta." aria-label="Listen Step 2">🔊 Listen step 2</button>
+        </div>
+      </div>
 
-      <div style="margin-top:12px">
-        <button id="speakBtn" class="btn" type="button">🔊 Listen</button>
+      <div id="step3" style="margin-top:8px;display:flex;align-items:flex-start;gap:12px">
+        <div style="flex:1">Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
+          <div style="margin-top:6px">\[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]</div>
+          which proves the result.
+        </div>
+        <div>
+          <button class="btn listen-step" data-text="Use sec squared theta equals one plus tan squared theta. Substituting gives one plus two tan squared theta, which matches the right hand side." aria-label="Listen Step 3">🔊 Listen step 3</button>
+        </div>
       </div>
     </div>
   </div>
@@ -88,30 +101,45 @@
   </script>
 
   <script>
-    // Simple speech support: reads a plain-English summary of the solution.
+    // Per-step speech support. Buttons with class 'listen-step' should have a data-text attribute.
     (function(){
-      var speakBtn = document.getElementById('speakBtn');
-      if (!speakBtn || !('speechSynthesis' in window)) return;
+      if (!('speechSynthesis' in window)) return;
+      var currentUtterance = null;
+      var currentBtn = null;
 
-      var speaking = false;
-      var utterance = null;
-      var text = 'Combine the two fractions over the common denominator. The numerator becomes sec theta times sec theta minus tan theta plus tan theta times sec theta plus tan theta. Simplifying gives sec squared theta plus tan squared theta over sec squared theta minus tan squared theta. Using sec squared theta equals one plus tan squared theta yields one plus two tan squared theta.';
+      function resetBtn(btn){
+        if (!btn) return;
+        btn.textContent = btn.dataset.label || btn.getAttribute('aria-label') || '🔊 Listen';
+      }
 
-      speakBtn.addEventListener('click', function(){
-        if (speaking){
-          window.speechSynthesis.cancel();
-          speakBtn.textContent = '🔊 Listen';
-          speaking = false;
-          return;
-        }
-        utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 1;
-        utterance.pitch = 1;
-        utterance.lang = 'en-US';
-        utterance.onend = function(){ speaking = false; speakBtn.textContent = '🔊 Listen'; };
-        speaking = true;
-        speakBtn.textContent = '■ Stop';
-        window.speechSynthesis.speak(utterance);
+      document.querySelectorAll('.listen-step').forEach(function(btn,index){
+        // store a friendly default label so we can restore it
+        btn.dataset.label = btn.textContent;
+        btn.addEventListener('click', function(){
+          var text = btn.getAttribute('data-text') || '';
+          if (currentUtterance){
+            // If same button clicked, stop; otherwise cancel and start new
+            if (currentBtn === btn){
+              window.speechSynthesis.cancel();
+              currentUtterance = null;
+              resetBtn(currentBtn);
+              currentBtn = null;
+              return;
+            }
+            window.speechSynthesis.cancel();
+            if (currentBtn) resetBtn(currentBtn);
+          }
+
+          currentBtn = btn;
+          btn.textContent = '■ Stop';
+          var u = new SpeechSynthesisUtterance(text);
+          u.rate = 1;
+          u.pitch = 1;
+          u.lang = 'en-US';
+          u.onend = function(){ resetBtn(btn); currentUtterance = null; currentBtn = null; };
+          currentUtterance = u;
+          window.speechSynthesis.speak(u);
+        });
       });
     })();
   </script>
