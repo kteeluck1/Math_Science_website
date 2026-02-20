@@ -1,0 +1,1 @@
+Combine the two fractions by using the common denominator. Multiply the first numerator by sec theta minus tan theta and the second by sec theta plus tan theta. Add the numerators over the product denominator.

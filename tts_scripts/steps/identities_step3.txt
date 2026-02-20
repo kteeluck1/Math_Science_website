@@ -1,0 +1,1 @@
+Use the Pythagorean identity: sec squared theta equals one plus tan squared theta. Substituting gives one plus two tan squared theta, which matches the right-hand side and completes the proof.

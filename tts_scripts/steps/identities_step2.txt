@@ -1,0 +1,1 @@
+After combining and simplifying, the numerator becomes sec squared theta plus tan squared theta and the denominator sec squared theta minus tan squared theta.
