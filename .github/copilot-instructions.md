@@ -73,3 +73,9 @@ If you want, I can:
 - open a PR with these instructions and any split changes you request.
 
 Thanks — use this as the living guide for Copilot contributions and small edits.
+
+Related files
+-------------
+- `tts_scripts/README.md`: details for generating MP3 narration locally (Python + gTTS).
+- `math-hl/template-topic.html`: canonical topic scaffold with MathJax includes.
+
