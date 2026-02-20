@@ -15,11 +15,98 @@
     .navlinks{ margin-top:12px }
     .pager{ display:flex; gap:12px; margin-top:18px }
     .btn{ padding:8px 10px; border-radius:8px; background:#2563eb; color:#fff; text-decoration:none; font-weight:800 }
+    .problem{ font-weight:800 }
+    .solution{ margin-top:12px; padding:12px; border-radius:8px; background:#f8fafc; display:none }
+    /* Page-local: make buttons inside problem card appear as outline with bold blue text */
+    .card .btn{ background:#fff; color:#2563eb; border:1px solid #2563eb; font-weight:800 }
+    .card .btn:hover{ background:#f1f5f9 }
+    /* Highlight step container while narration is playing */
+    .speaking{ background:linear-gradient(90deg, rgba(245,250,255,0.6), rgba(255,249,230,0.8)); box-shadow:inset 0 0 0 1px rgba(99,102,241,0.03); transition:background 0.2s ease }
+    /* Inline word highlighting */
+    .speak-text{ margin-top:8px; color:#0f172a }
+    .speak-text .word{ padding:0 2px; border-radius:2px }
+    .speak-text .speaking-word{ background:#fff3bf }
     </style>
     <script>
       window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] } };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script>
+      // Toggle show/hide solution for topic pages
+      document.addEventListener('DOMContentLoaded', function(){
+        document.querySelectorAll('button[data-target]').forEach(function(b){
+          b.addEventListener('click', function(){
+            var id = b.getAttribute('data-target');
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (el.style.display === 'block'){
+              el.style.display = 'none';
+              b.textContent = 'Show solution';
+            } else {
+              el.style.display = 'block';
+              b.textContent = 'Hide solution';
+            }
+          });
+        });
+
+        // Per-step speech support with inline highlighting
+        if (!('speechSynthesis' in window)) return;
+        (function(){
+          var currentUtterance = null;
+          var currentBtn = null;
+          var currentContainer = null;
+
+          function resetBtn(btn){ if (!btn) return; btn.textContent = btn.dataset.label || btn.getAttribute('aria-label') || '🔊 Listen'; }
+
+          document.querySelectorAll('.listen-step').forEach(function(btn,index){
+            btn.dataset.label = btn.textContent;
+            btn.addEventListener('click', function(){
+              var text = btn.getAttribute('data-text') || '';
+              if (currentUtterance){
+                if (currentBtn === btn){
+                  window.speechSynthesis.cancel();
+                  currentUtterance = null;
+                  if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; }
+                  resetBtn(currentBtn);
+                  currentBtn = null;
+                  return;
+                }
+                window.speechSynthesis.cancel();
+                if (currentBtn) resetBtn(currentBtn);
+                if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; }
+              }
+
+              currentBtn = btn;
+              btn.textContent = '■ Stop';
+              var container = btn.closest('[id^="step"]');
+              if (container){ container.classList.add('speaking'); currentContainer = container; }
+
+              var u = new SpeechSynthesisUtterance(text);
+              u.rate = 1; u.pitch = 1; u.lang = 'en-US';
+
+              var spans = container ? Array.from(container.querySelectorAll('.speak-text .word')) : [];
+              if (spans.length){
+                var joined = spans.map(function(s){ return s.textContent; }).join(' ');
+                var idx = 0; var wordOffsets = [];
+                joined.split(/\s+/).forEach(function(w){ wordOffsets.push(idx); idx += w.length + 1; });
+                u.onboundary = function(ev){
+                  try{
+                    var charIndex = ev.charIndex || 0; var wi = 0;
+                    for (var k=0;k<wordOffsets.length;k++){ if (wordOffsets[k] <= charIndex) wi = k; else break; }
+                    spans.forEach(function(s){ s.classList.remove('speaking-word'); });
+                    if (spans[wi]) spans[wi].classList.add('speaking-word');
+                  }catch(e){}
+                };
+              }
+
+              u.onend = function(){ resetBtn(btn); currentUtterance = null; currentBtn = null; if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; } if (spans.length) spans.forEach(function(s){ s.classList.remove('speaking-word'); }); };
+
+              currentUtterance = u; window.speechSynthesis.speak(u);
+            });
+          });
+        })();
+      });
+    </script>
   </head>
 <body>
   <div class="nav">
