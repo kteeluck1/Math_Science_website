@@ -55,6 +55,16 @@
           var currentUtterance = null;
           var currentBtn = null;
           var currentContainer = null;
+          var currentFallback = null;
+
+          function clearAllHighlights(){
+            if (currentFallback){ clearInterval(currentFallback); currentFallback = null; }
+            if (currentContainer){
+              currentContainer.classList.remove('speaking');
+              Array.from(currentContainer.querySelectorAll('.speak-text .word')).forEach(function(s){ s.classList.remove('speaking-word'); });
+              currentContainer = null;
+            }
+          }
 
           function resetBtn(btn){ if (!btn) return; btn.textContent = btn.dataset.label || btn.getAttribute('aria-label') || '🔊 Listen'; }
 
@@ -66,22 +76,24 @@
                 if (currentBtn === btn){
                   window.speechSynthesis.cancel();
                   currentUtterance = null;
-                  if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; }
+                  clearAllHighlights();
                   resetBtn(currentBtn);
                   currentBtn = null;
                   return;
                 }
                 window.speechSynthesis.cancel();
                 if (currentBtn) resetBtn(currentBtn);
-                if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; }
+                clearAllHighlights();
               }
 
               currentBtn = btn;
               btn.textContent = '■ Stop';
+              if (window.SPEECH_DEBUG) console.log('speech:start', {btn: btn, text: text});
               var container = btn.closest('[id^="step"]');
               if (container){ container.classList.add('speaking'); currentContainer = container; }
 
               var u = new SpeechSynthesisUtterance(text);
+              u.text = text;
               u.rate = 1; u.pitch = 1; u.lang = 'en-US';
 
               var spans = container ? Array.from(container.querySelectorAll('.speak-text .word')) : [];
@@ -90,7 +102,7 @@
                 // but always start a fallback interval that advances the highlight
                 // every 350ms. If onboundary fires, it will clear the fallback.
                 var fallbackInterval = null;
-                function clearFallback(){ if (fallbackInterval){ clearInterval(fallbackInterval); fallbackInterval = null; } }
+                function clearFallback(){ if (fallbackInterval){ clearInterval(fallbackInterval); fallbackInterval = null; if (currentFallback===fallbackInterval) currentFallback = null; } }
 
                 u.onboundary = function(ev){
                   try{
@@ -103,19 +115,21 @@
                     if (wi < 0) wi = 0; if (wi >= spans.length) wi = spans.length - 1;
                     spans.forEach(function(s){ s.classList.remove('speaking-word'); });
                     if (spans[wi]) spans[wi].classList.add('speaking-word');
+                    if (window.SPEECH_DEBUG) console.log('speech:onboundary', {charIndex: charIndex, wordIndex: wi, word: spans[wi] && spans[wi].textContent});
                     clearFallback();
                   }catch(e){}
                 };
 
                 // Start fallback immediately; it will be cleared if onboundary runs.
                 var wi = 0;
-                var perWordMs = 350;
-                fallbackInterval = setInterval(function(){ spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); wi++; if (wi >= spans.length) clearFallback(); }, perWordMs);
+                var perWordMs = Math.max(120, Math.min(1200, Math.round(60000 / (180 * (u.rate || 1))))); // approx words/minute 180
+                fallbackInterval = setInterval(function(){ spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); if (window.SPEECH_DEBUG) console.log('speech:fallback', {wordIndex: wi, word: spans[wi] && spans[wi].textContent}); wi++; if (wi >= spans.length) clearFallback(); }, perWordMs);
+                currentFallback = fallbackInterval;
 
-                u.onend = function(){ clearFallback(); };
+                u.onend = function(){ clearFallback(); if (currentFallback === fallbackInterval) currentFallback = null; };
               }
 
-              u.onend = function(){ resetBtn(btn); currentUtterance = null; currentBtn = null; if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; } if (spans.length) spans.forEach(function(s){ s.classList.remove('speaking-word'); }); };
+              u.onend = function(){ if (window.SPEECH_DEBUG) console.log('speech:end', {btn: btn}); resetBtn(btn); currentUtterance = null; currentBtn = null; if (spans && spans.length) spans.forEach(function(s){ s.classList.remove('speaking-word'); }); clearAllHighlights(); };
 
               currentUtterance = u; window.speechSynthesis.speak(u);
             });
