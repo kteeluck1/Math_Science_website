@@ -89,14 +89,31 @@
                 var joined = spans.map(function(s){ return s.textContent; }).join(' ');
                 var idx = 0; var wordOffsets = [];
                 joined.split(/\s+/).forEach(function(w){ wordOffsets.push(idx); idx += w.length + 1; });
+                var boundarySeen = false;
+                var fallbackInterval = null;
+                function clearFallback(){ if (fallbackInterval){ clearInterval(fallbackInterval); fallbackInterval = null; } }
+                u.onstart = function(){ boundarySeen = false; clearFallback(); };
                 u.onboundary = function(ev){
                   try{
-                    var charIndex = ev.charIndex || 0; var wi = 0;
-                    for (var k=0;k<wordOffsets.length;k++){ if (wordOffsets[k] <= charIndex) wi = k; else break; }
+                    boundarySeen = true;
+                    var charIndex = (typeof ev.charIndex === 'number') ? ev.charIndex : 0;
+                    var wi = 0;
+                    for (var k=0;k<wordOffsets.length;k++){
+                      if (wordOffsets[k] <= charIndex) wi = k; else break;
+                    }
+                    if (wi < 0) wi = 0; if (wi >= spans.length) wi = spans.length - 1;
                     spans.forEach(function(s){ s.classList.remove('speaking-word'); });
                     if (spans[wi]) spans[wi].classList.add('speaking-word');
                   }catch(e){}
                 };
+                // Fallback: if boundary events are not provided reliably, simulate per-word highlighting
+                u.onstart = (function(orig){ return function(){ if (orig) orig(); boundarySeen = false; clearFallback();
+                  // after 250ms, if no boundarySeen, start fallback highlighting
+                  setTimeout(function(){ if (boundarySeen) return; var wi = 0; var perWordMs = Math.max(220, Math.min(800, Math.round(600 / (u.rate || 1))));
+                      fallbackInterval = setInterval(function(){ spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); wi++; if (wi >= spans.length) { clearFallback(); } }, perWordMs);
+                  }, 250);
+                }; })(u.onstart);
+                u.onend = (function(orig){ return function(){ clearFallback(); if (orig) orig(); }; })(u.onend);
               }
 
               u.onend = function(){ resetBtn(btn); currentUtterance = null; currentBtn = null; if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; } if (spans.length) spans.forEach(function(s){ s.classList.remove('speaking-word'); }); };
