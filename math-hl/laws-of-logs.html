@@ -32,85 +32,40 @@
       <div id="step1" style="margin-top:6px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
         <div style="flex:1">
           <strong>Step 1 — rewrite the RHS with base 3:</strong>
-          <div style="margin-top:8px">Note that \(\log_9 6 = \dfrac{\log_3 6}{\log_3 9} = \dfrac{\log_3 6}{2}\), so
-            \(10\log_9 6 = 5\log_3 6\).
-          </div>
-          <div class="speak-text" aria-hidden="true">
-            <span class="word">Write</span>
-            <span class="word">log</span>
-            <span class="word">base</span>
-            <span class="word">nine</span>
-            <span class="word">as</span>
-            <span class="word">a</span>
-            <span class="word">base</span>
-            <span class="word">three</span>
-            <span class="word">expression.</span>
-          </div>
+          <div style="margin-top:8px">\(\displaystyle 10\log_9 6 = 10\cdot\frac{\log_3 6}{\log_3 9} = 10\cdot\frac{\log_3 6}{2} = 5\log_3 6\).</div>
+          <div style="margin-top:6px">So the equation becomes \(m - n\log_3 2 = 5\log_3 6\).</div>
+          <div class="speak-text" aria-hidden="true">Write ten log base nine of six as five log base three of six, since \(\log_9 6 = \log_3 6 / \log_3 9\) and \(\log_3 9 = 2\).</div>
         </div>
         <div>
-          <button class="btn listen-step" data-text="Log nine of six equals one half log three of six, so ten times log nine of six equals five log three of six." aria-label="Listen Step 1">🔊 Listen step 1</button>
+          <button class="btn listen-step" data-text="First, rewrite ten times log base nine of six using base three: ten times log nine of six equals five times log three of six. So the equation becomes m minus n log three of two equals five log three of six." aria-label="Listen Step 1">🔊 Listen step 1</button>
         </div>
       </div>
 
       <div id="step2" style="margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
         <div style="flex:1">
           <strong>Step 2 — expand \(\log_3 6\):</strong>
-          <div style="margin-top:6px">\(\log_3 6 = \log_3(2\cdot3) = \log_3 2 + \log_3 3 = \log_3 2 + 1\). Hence
-            \(5\log_3 6 = 5 + 5\log_3 2\).
+          <div style="margin-top:6px">\(\displaystyle \log_3 6 = \log_3(2\cdot3) = \log_3 2 + \log_3 3 = \log_3 2 + 1\), so
+            \(\displaystyle 5\log_3 6 = 5(\log_3 2 + 1) = 5 + 5\log_3 2\).
           </div>
-          <div class="speak-text" aria-hidden="true">
-            <span class="word">Use</span>
-            <span class="word">the</span>
-            <span class="word">product</span>
-            <span class="word">rule</span>
-            <span class="word">for</span>
-            <span class="word">logarithms</span>
-            <span class="word">to</span>
-            <span class="word">write</span>
-            <span class="word">log</span>
-            <span class="word">three</span>
-            <span class="word">of</span>
-            <span class="word">six</span>
-            <span class="word">as</span>
-            <span class="word">log</span>
-            <span class="word">three</span>
-            <span class="word">of</span>
-            <span class="word">two</span>
-            <span class="word">plus</span>
-            <span class="word">one.</span>
-          </div>
+          <div class="speak-text" aria-hidden="true">Expand log base three of six to log base three of two plus one; therefore five times log three of six equals five plus five log three of two.</div>
         </div>
         <div>
-          <button class="btn listen-step" data-text="Log three of six equals log three of two plus one, so five times log three of six equals five plus five log three of two." aria-label="Listen Step 2">🔊 Listen step 2</button>
+          <button class="btn listen-step" data-text="Next, write log three of six as log three of two plus one, giving five log three of six equals five plus five log three of two." aria-label="Listen Step 2">🔊 Listen step 2</button>
         </div>
       </div>
 
       <div id="step3" style="margin-top:8px;display:flex;align-items:flex-start;gap:12px">
         <div style="flex:1">
-          <strong>Step 3 — rearrange and use irrationality:</strong>
-          <div style="margin-top:6px">Substitute into the original equation to get
-            \(m - n\log_3 2 = 5 + 5\log_3 2\).
-            Rearranging gives \(m-5 = (n+5)\log_3 2\). Since \(\log_3 2\) is irrational, the only way the right-hand side is an integer is if \(n+5=0\).
-            Therefore \(n=-5\) and hence \(m-5=0\) so \(m=5\).
+          <strong>Step 3 — rearrange and conclude:</strong>
+          <div style="margin-top:6px">Substitute the expression from Step 2 into the equation to get
+            \(\displaystyle m - n\log_3 2 = 5 + 5\log_3 2\).
+            Rearranging gives \(\displaystyle m-5 = (n+5)\log_3 2\).
           </div>
-          <div class="speak-text" aria-hidden="true">
-            <span class="word">Rearrange</span>
-            <span class="word">to</span>
-            <span class="word">isolate</span>
-            <span class="word">log</span>
-            <span class="word">three</span>
-            <span class="word">of</span>
-            <span class="word">two,</span>
-            <span class="word">and</span>
-            <span class="word">use</span>
-            <span class="word">that</span>
-            <span class="word">it</span>
-            <span class="word">is</span>
-            <span class="word">irrational.</span>
-          </div>
+          <div style="margin-top:6px">Because \(\log_3 2\) is irrational, for \((n+5)\log_3 2\) to be an integer we must have \(n+5=0\). Hence \(n=-5\), and then \(m-5=0\) so \(m=5\).</div>
+          <div class="speak-text" aria-hidden="true">Rearrange to isolate log three of two: m minus five equals n plus five times log three of two. Since log three of two is irrational, n plus five must be zero. Therefore n equals minus five and m equals five.</div>
         </div>
         <div>
-          <button class="btn listen-step" data-text="Rearrange to get m minus five equals n plus five times log three of two. Because log three of two is irrational, n plus five must be zero, so n equals minus five and m equals five." aria-label="Listen Step 3">🔊 Listen step 3</button>
+          <button class="btn listen-step" data-text="Finally, rearrange to get m minus five equals n plus five times log three of two. Because log three of two is irrational, n plus five must be zero, so n equals minus five and m equals five. The solution is m equals five and n equals minus five." aria-label="Listen Step 3">🔊 Listen step 3</button>
         </div>
       </div>
     </div>

@@ -178,6 +178,22 @@
     <a class="btn" href="equations.html">Next: Equations</a>
   </div>
 
-  
+</div>
+
+  <script>
+    // Toggle show/hide for solution sections using button[data-target]
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('button[data-target]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-target');
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return;
+      var isHidden = getComputedStyle(target).display === 'none';
+      target.style.display = isHidden ? 'block' : 'none';
+      btn.textContent = isHidden ? 'Hide solution' : 'Show solution';
+    });
+  </script>
+
 </body>
 </html>
