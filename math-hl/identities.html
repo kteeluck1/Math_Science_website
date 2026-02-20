@@ -42,16 +42,25 @@
       \(\displaystyle \frac{\sec\theta}{\sec\theta+\tan\theta} + \frac{\tan\theta}{\sec\theta-\tan\theta} = 1 + 2\tan^2\theta \)
     </div>
 
-    <button class="btn" data-target="s1">Show solution</button>
+    <!-- Step 1: show how to combine into a single fraction (visible before full solution) -->
+    <div style="margin-top:12px;padding:10px;border-radius:8px;background:#f1f5f9;color:#0f172a">
+      <strong>Step 1 — combine as a single fraction:</strong>
+      <div style="margin-top:8px">\(\displaystyle \frac{\sec\theta(\sec\theta-\tan\theta)+\tan\theta(\sec\theta+\tan\theta)}{(\sec\theta+\tan\theta)(\sec\theta-\tan\theta)}\)</div>
+    </div>
+
+    <button class="btn" data-target="s1" style="margin-top:12px">Show solution</button>
 
     <div id="s1" class="solution">
-      Combine the two fractions and simplify. For clarity, write the result as display math:
-      <br/>
+      <div style="margin-bottom:8px">Combine the two fractions and simplify. For clarity, write the result as display math:</div>
       \[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}\]
       Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
       <br/>
       \[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]
       which proves the result.
+
+      <div style="margin-top:12px">
+        <button id="speakBtn" class="btn" type="button">🔊 Listen</button>
+      </div>
     </div>
   </div>
 
@@ -76,6 +85,35 @@
         }
       });
     });
+  </script>
+
+  <script>
+    // Simple speech support: reads a plain-English summary of the solution.
+    (function(){
+      var speakBtn = document.getElementById('speakBtn');
+      if (!speakBtn || !('speechSynthesis' in window)) return;
+
+      var speaking = false;
+      var utterance = null;
+      var text = 'Combine the two fractions over the common denominator. The numerator becomes sec theta times sec theta minus tan theta plus tan theta times sec theta plus tan theta. Simplifying gives sec squared theta plus tan squared theta over sec squared theta minus tan squared theta. Using sec squared theta equals one plus tan squared theta yields one plus two tan squared theta.';
+
+      speakBtn.addEventListener('click', function(){
+        if (speaking){
+          window.speechSynthesis.cancel();
+          speakBtn.textContent = '🔊 Listen';
+          speaking = false;
+          return;
+        }
+        utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.lang = 'en-US';
+        utterance.onend = function(){ speaking = false; speakBtn.textContent = '🔊 Listen'; };
+        speaking = true;
+        speakBtn.textContent = '■ Stop';
+        window.speechSynthesis.speak(utterance);
+      });
+    })();
   </script>
 </body>
 </html>
