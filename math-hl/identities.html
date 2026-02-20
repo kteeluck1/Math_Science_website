@@ -9,6 +9,9 @@
     a{color:#2563eb}
     .signup{padding:8px 12px;border-radius:999px;background:#f97316;color:#fff;font-weight:800;text-decoration:none}
     .btn{padding:8px 10px;border-radius:8px;background:#2563eb;color:#fff;text-decoration:none;font-weight:800;border:0;cursor:pointer}
+    /* Page-local: make buttons inside problem card appear as outline with bold blue text */
+    .card .btn{background:#fff;color:#2563eb;border:1px solid #2563eb;font-weight:800}
+    .card .btn:hover{background:#f1f5f9}
     .card{border:1px solid #e5e7eb;border-radius:12px;padding:18px;margin-bottom:12px;background:#fff}
     .problem{font-weight:800}
     .solution{margin-top:12px;padding:12px;border-radius:8px;background:#f8fafc;display:none}
@@ -44,7 +47,7 @@
 
     <button class="btn" data-target="s1" style="margin-top:12px">Show solution</button>
 
-    <!-- Step 1: moved below the Show/Hide button -->
+    <!-- Step 1: moved below the Show/Hide button (narration removed) -->
     <div style="margin-top:12px;padding:10px;border-radius:8px;background:#f1f5f9;color:#0f172a;display:flex;align-items:flex-start;gap:12px">
       <div style="flex:1">
         <strong>Step 1 — combine as a single fraction:</strong>
@@ -57,8 +60,10 @@
 
     <div id="s1" class="solution">
       <div id="step2" style="margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
-        <div style="flex:1">Combine the two fractions and simplify. For clarity, write the result as display math:
-          <div>\[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}\]</div>
+        <div style="flex:1">
+          <strong>Step 2 — simplify the combined fraction:</strong>
+          <div style="margin-top:6px">Combine the two fractions and simplify. For clarity, write the result as display math:</div>
+          <div style="margin-top:6px">\[\frac{\sec^2\theta + \tan^2\theta}{\sec^2\theta - \tan^2\theta}\]</div>
         </div>
         <div>
           <button class="btn listen-step" data-text="After combining and simplifying, the numerator becomes sec squared theta plus tan squared theta, and the denominator sec squared theta minus tan squared theta." aria-label="Listen Step 2">🔊 Listen step 2</button>
@@ -66,9 +71,11 @@
       </div>
 
       <div id="step3" style="margin-top:8px;display:flex;align-items:flex-start;gap:12px">
-        <div style="flex:1">Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain
+        <div style="flex:1">
+          <strong>Step 3 — apply the Pythagorean identity:</strong>
+          <div style="margin-top:6px">Using the Pythagorean identity \(\sec^2\theta = 1 + \tan^2\theta\) we obtain</div>
           <div style="margin-top:6px">\[\frac{1 + 2\tan^2\theta}{1} = 1 + 2\tan^2\theta,\]</div>
-          which proves the result.
+          <div style="margin-top:6px">which proves the result.</div>
         </div>
         <div>
           <button class="btn listen-step" data-text="Use sec squared theta equals one plus tan squared theta. Substituting gives one plus two tan squared theta, which matches the right hand side." aria-label="Listen Step 3">🔊 Listen step 3</button>
@@ -76,15 +83,7 @@
       </div>
     </div>
     
-    <div style="margin-top:12px;font-size:90%">
-      <strong>Download narration scripts:</strong>
-      <div style="margin-top:8px;display:flex;gap:8px">
-        <a class="btn" href="../tts_scripts/steps/identities_step1.txt" download>Download Step 1 text</a>
-        <a class="btn" href="../tts_scripts/steps/identities_step2.txt" download>Download Step 2 text</a>
-        <a class="btn" href="../tts_scripts/steps/identities_step3.txt" download>Download Step 3 text</a>
-      </div>
-      <div style="margin-top:8px;color:#475569">To generate MP3 files locally, run the helper script <strong>tts_scripts/generate_audio.py</strong> (requires Python and <code>gTTS</code>). See <code>tts_scripts/README.md</code> for details.</div>
-    </div>
+    <!-- Narration downloads removed -->
   </div>
 
   <div style="display:flex;gap:12px;margin-top:18px">
