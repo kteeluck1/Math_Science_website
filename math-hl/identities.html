@@ -38,11 +38,13 @@
 
   <div class="card">
     <div class="problem">Problem 1 — Prove the following identity</div>
-    <div style="margin-top:8px">(a)
+    <div style="margin-top:8px">
       \(\displaystyle \frac{\sec\theta}{\sec\theta+\tan\theta} + \frac{\tan\theta}{\sec\theta-\tan\theta} = 1 + 2\tan^2\theta \)
     </div>
 
-    <!-- Step 1: show how to combine into a single fraction (visible before full solution) -->
+    <button class="btn" data-target="s1" style="margin-top:12px">Show solution</button>
+
+    <!-- Step 1: moved below the Show/Hide button -->
     <div style="margin-top:12px;padding:10px;border-radius:8px;background:#f1f5f9;color:#0f172a;display:flex;align-items:flex-start;gap:12px">
       <div style="flex:1">
         <strong>Step 1 — combine as a single fraction:</strong>
@@ -52,8 +54,6 @@
         <button class="btn listen-step" data-text="Combine the two fractions by using the common denominator: multiply the first numerator by sec theta minus tan theta and the second by sec theta plus tan theta, then add the numerators over the product denominator." aria-label="Listen Step 1">🔊 Listen step 1</button>
       </div>
     </div>
-
-    <button class="btn" data-target="s1" style="margin-top:12px">Show solution</button>
 
     <div id="s1" class="solution">
       <div id="step2" style="margin-bottom:8px;display:flex;align-items:flex-start;gap:12px">
