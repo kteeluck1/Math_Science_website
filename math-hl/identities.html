@@ -214,15 +214,13 @@
             var u = new SpeechSynthesisUtterance(text); u.rate=1; u.pitch=1; u.lang='en-US';
             var spans = container ? Array.from(container.querySelectorAll('.speak-text .word')) : [];
             if (spans.length){
-              var joined = spans.map(function(s){ return s.textContent; }).join(' ');
-              var idx = 0; var wordOffsets = [];
-              joined.split(/\s+/).forEach(function(w){ wordOffsets.push(idx); idx += w.length + 1; });
-              var boundarySeen = false; var fallbackInterval = null;
+              // Start a simple fallback highlighting interval; prefer onboundary but clear fallback if it fires
+              var fallbackInterval = null;
               function clearFallback(){ if (fallbackInterval){ clearInterval(fallbackInterval); fallbackInterval = null; } }
-              u.onstart = function(){ boundarySeen = false; clearFallback(); };
-              u.onboundary = function(ev){ try{ boundarySeen = true; var charIndex = (typeof ev.charIndex === 'number') ? ev.charIndex : 0; var wi = 0; for (var k=0;k<wordOffsets.length;k++){ if (wordOffsets[k] <= charIndex) wi = k; else break; } if (wi < 0) wi = 0; if (wi >= spans.length) wi = spans.length - 1; spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); }catch(e){} };
-              u.onstart = (function(orig){ return function(){ if (orig) orig(); boundarySeen = false; clearFallback(); setTimeout(function(){ if (boundarySeen) return; var wi = 0; var perWordMs = Math.max(220, Math.min(800, Math.round(600 / (u.rate || 1)))); fallbackInterval = setInterval(function(){ spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); wi++; if (wi >= spans.length) { clearFallback(); } }, perWordMs); }, 250); }; })(u.onstart);
-              u.onend = (function(orig){ return function(){ clearFallback(); if (orig) orig(); }; })(u.onend);
+              u.onboundary = function(ev){ try{ var charIndex = (typeof ev.charIndex === 'number') ? ev.charIndex : 0; var prefix = (u.text || '').slice(0,charIndex); var wi = prefix.trim() ? prefix.split(/\s+/).length - 1 : 0; if (wi < 0) wi = 0; if (wi >= spans.length) wi = spans.length - 1; spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); clearFallback(); }catch(e){} };
+              var wi = 0; var perWordMs = 350;
+              fallbackInterval = setInterval(function(){ spans.forEach(function(s){ s.classList.remove('speaking-word'); }); if (spans[wi]) spans[wi].classList.add('speaking-word'); wi++; if (wi >= spans.length) clearFallback(); }, perWordMs);
+              u.onend = function(){ clearFallback(); };
             }
             u.onend = function(){ resetBtn(btn); currentUtterance = null; currentBtn = null; if (currentContainer) { currentContainer.classList.remove('speaking'); currentContainer = null; } if (spans.length) spans.forEach(function(s){ s.classList.remove('speaking-word'); }); };
             currentUtterance = u; window.speechSynthesis.speak(u);
